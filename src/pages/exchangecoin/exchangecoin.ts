@@ -10,7 +10,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 })
 export class ExchangecoinPage {
 
-  data = "Press button to scan...";
+  data = "Data scan...";
   bath = "";
   format = "Press button to scan...";
 

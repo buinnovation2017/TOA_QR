@@ -8,15 +8,12 @@
 
 
 <ion-content padding>
-    <ion-label>{{Count20}}</ion-label>
-    <ion-label>{{Count30}}</ion-label>
-    <ion-label>{{Count60}}</ion-label>
-    <ion-card>
-    <ion-card-content>
-        {{data}},{{bath}}
-    </ion-card-content>
-    </ion-card>
+    <ion-label>{{data}}</ion-label>
     <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
+
+
+   
+
 </ion-content>
 
 
@@ -24,22 +21,40 @@
     <ion-grid>
         <ion-row>
             <ion-col col-12 style="text-align: center" >
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col col-8 style="text-align: left" >
-                
-            </ion-col>
-            <ion-col col-4 style="text-align: right" >
-                <button ion-button> ถัดไป</button>
+              <!-- สแกนผิด -->
             </ion-col>
         </ion-row>
 
+        <ion-row>
+            <ion-col col-8 style="text-align: center" >
+                <ion-item>
+                    <button id="notification-button" ion-button clear>
+                        <ion-icon name="notifications">
+                          <ion-badge id="notifications-badge" color="danger">{{Count20}}</ion-badge>
+                        </ion-icon>              
+                    </button>
+                    <button id="notification-button" ion-button clear>
+                        <ion-icon name="notifications">
+                          <ion-badge id="notifications-badge" color="danger">{{Count30}}</ion-badge>
+                        </ion-icon>              
+                    </button>
+                    <button id="notification-button" ion-button clear>
+                        <ion-icon name="notifications">
+                          <ion-badge id="notifications-badge" color="danger">{{Count60}}</ion-badge>
+                        </ion-icon>              
+                    </button>
+                </ion-item>
+            </ion-col>
+            <ion-col col-4 style="text-align: center" >
+                <button ion-button style="text-align: right" > ถัดไป</button>
+              </ion-col>
+        </ion-row>
     </ion-grid>
+
         <!-- <ion-row style="width: 100%">
-        
+        <button ion-button style="width: 30%;text-align: right" > ถัดไป</button>
         </ion-row> -->
-    <!-- </ion-toolbar> -->
+
 </ion-footer>
 
 
