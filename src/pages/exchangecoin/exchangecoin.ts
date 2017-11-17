@@ -80,16 +80,12 @@ export class ExchangecoinPage {
 
         conObject.executeSql(sql, {}).then(
           (result) => { 
-            this.status = "Load successful."; 
+            this.status = "Delete successful."; 
+            this.load();
 
-            if(result.rows.length > 0){
-
-              this.messageArray = [];
-
-              for (var i = 0; i < result.rows.length; i++) {
-                this.messageArray.push(result.rows.item(i));
-              }
-            }
+            this.Count20 = 0;
+            this.Count30 = 0;
+            this.Count60 = 0;
           }
           , (error) => { this.status = "Error insert new message: " + error.message }
         )
@@ -152,6 +148,11 @@ export class ExchangecoinPage {
                       for (var i = 0; i < result.rows.length; i++) {
                         this.messageArray.push(result.rows.item(i));
                       }
+                    }
+                    else{
+                      this.messageArray = [];
+                      this.messageArray.push("");
+                      this.messageArray.pop();
                     }
                   }
                   , (error) => { this.status = "Error insert new message: " + error.message }

@@ -1,27 +1,18 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>รับแลกเหรียญ</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content padding>
-
+    <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
+    <button ion-button style="width: 48%" (click)="DataClear()"> clear</button>
     <ion-list>
         <ion-item *ngFor="let item of messageArray">
             {{ item.id }} {{ item.messege }}
         </ion-item>
     </ion-list>
 
-    <ion-label>{{data}}</ion-label>
-    <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
-    <button ion-button style="width: 48%" (click)="DataClear()"> clear</button>
-
 </ion-content>
-
-
 <ion-footer>
     <ion-grid>
         <ion-row>
@@ -57,5 +48,3 @@
         </ion-row>
     </ion-grid>
 </ion-footer>
-
-
