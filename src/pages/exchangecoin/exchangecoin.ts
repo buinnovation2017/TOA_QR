@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 @IonicPage()
 @Component({
@@ -18,11 +18,45 @@ export class ExchangecoinPage {
   Count30 = 0;
   Count60 = 0;
 
-  // private barcodeScanner: BarcodeScanner
-  constructor(public navCtrl: NavController
-        , private barcodeScanner: BarcodeScanner ) {
+  status;
+  connectionObject = { name:'pon.db', location:'default' };
+  messageArray = [];
 
-  }
+  
+  
+  constructor(
+          public navCtrl: NavController
+        , private barcodeScanner: BarcodeScanner 
+        , public platform : Platform
+        , public db: SQLite
+      ) {
+          
+               this.platform.ready().then(
+                 () => {
+
+                  this.db.create(this.connectionObject).then(
+                      (conObject: SQLiteObject) => { 
+                        this.status = "Database ready.";
+        
+                        let sql = "CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, messege TEXT)";
+        
+                        conObject.executeSql(sql, {}).then(
+                          () => { 
+                            this.status = "Table is ready.";
+                            this.load();
+                          }
+                          , (error) => { this.status = "Error in create table: " + error.message }
+                        )
+                      }
+                      , (error) => { this.status = "Error in create database." }
+                    );
+        
+                 }
+                 , (error) => { this.status = "Error in ready platform. " }
+               );
+          }
+
+
 
   QRScan() {
     this.barcodeScanner.scan().then((barcodeData) => {
@@ -31,11 +65,40 @@ export class ExchangecoinPage {
       this.bath = this.data.substring(0,2);
       this.format = barcodeData.format;
       
+      this.save(this.data);
       this.CountCoin();
     }, (error) => {
       alert(error);
     });
   }
+
+  DataClear(){
+    let sql = "DELETE FROM  Messages";
+
+    this.db.create(this.connectionObject).then(
+      (conObject:SQLiteObject) => {
+
+        conObject.executeSql(sql, {}).then(
+          (result) => { 
+            this.status = "Load successful."; 
+
+            if(result.rows.length > 0){
+
+              this.messageArray = [];
+
+              for (var i = 0; i < result.rows.length; i++) {
+                this.messageArray.push(result.rows.item(i));
+              }
+            }
+          }
+          , (error) => { this.status = "Error insert new message: " + error.message }
+        )
+
+      }
+      , (error) => { this.status = "Error open db for insert: " + error.message }
+    )
+  }
+
 
   CountCoin(){
     if(this.bath == '20')
@@ -44,7 +107,60 @@ export class ExchangecoinPage {
       this.Count30 += 1;
     else if(this.bath == '60')
       this.Count60 += 1;
-    
   }
+
+
+  // ==== SQLite ===
+  save(message){
+    
+        let sql = "INSERT INTO Messages (messege) VALUES (?)";
+    
+        // db.create(connection object).then( obj: SQLiteObject )
+        //    obj.executeSql(sql, [])
+    
+        this.db.create(this.connectionObject).then(
+          (conObject:SQLiteObject) => {
+    
+            conObject.executeSql(sql, [message]).then(
+              () => { 
+                this.status = "Message saved successful.";
+                this.load(); 
+              }
+              , (error) => { this.status = "Error insert new message: " + error.message }
+            )
+    
+          }
+          , (error) => { this.status = "Error open db for insert: " + error.message }
+        )
+      }
+
+
+      load(){
+            let sql = "SELECT * FROM Messages ORDER BY id DESC";
+        
+            this.db.create(this.connectionObject).then(
+              (conObject:SQLiteObject) => {
+        
+                conObject.executeSql(sql, {}).then(
+                  (result) => { 
+                    this.status = "Load successful."; 
+        
+                    if(result.rows.length > 0){
+        
+                      this.messageArray = [];
+        
+                      for (var i = 0; i < result.rows.length; i++) {
+                        this.messageArray.push(result.rows.item(i));
+                      }
+                    }
+                  }
+                  , (error) => { this.status = "Error insert new message: " + error.message }
+                )
+        
+              }
+              , (error) => { this.status = "Error open db for insert: " + error.message }
+            )
+          }
+
 }
 

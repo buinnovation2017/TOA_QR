@@ -8,11 +8,16 @@
 
 
 <ion-content padding>
+
+    <ion-list>
+        <ion-item *ngFor="let item of messageArray">
+            {{ item.id }} {{ item.messege }}
+        </ion-item>
+    </ion-list>
+
     <ion-label>{{data}}</ion-label>
     <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
-
-
-   
+    <button ion-button style="width: 48%" (click)="DataClear()"> clear</button>
 
 </ion-content>
 
@@ -41,6 +46,7 @@
                     <button id="notification-button" ion-button clear>
                         <ion-icon name="notifications">
                           <ion-badge id="notifications-badge" color="danger">{{Count60}}</ion-badge>
+                          <!-- <ion-img   src="../assets/imgs/mainmenu/Reporttheproblem.png"></ion-img> -->
                         </ion-icon>              
                     </button>
                 </ion-item>
@@ -50,11 +56,6 @@
               </ion-col>
         </ion-row>
     </ion-grid>
-
-        <!-- <ion-row style="width: 100%">
-        <button ion-button style="width: 30%;text-align: right" > ถัดไป</button>
-        </ion-row> -->
-
 </ion-footer>
 
 
