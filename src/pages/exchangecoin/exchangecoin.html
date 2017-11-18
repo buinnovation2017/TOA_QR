@@ -6,11 +6,23 @@
 <ion-content padding>
     <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
     <button ion-button style="width: 48%" (click)="DataClear()"> clear</button>
+    <button ion-button style="width: 48%" (click)="LoadJson()"> loadJson</button>
     <ion-list>
         <ion-item *ngFor="let item of messageArray">
             {{ item.id }} {{ item.messege }}
         </ion-item>
     </ion-list>
+
+    <ion-label>===========================</ion-label>
+    <ion-content>
+        <ion-list>
+          <ion-item *ngFor="let QR of apiData">
+            <p>{{QR.code}}</p>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+
+<ion-label>{{data}}</ion-label>
 
 </ion-content>
 <ion-footer>
@@ -43,7 +55,7 @@
                 </ion-item>
             </ion-col>
             <ion-col col-4 style="text-align: center" >
-                <button ion-button style="text-align: right" > ถัดไป</button>
+                <button ion-button style="text-align: right" (tap)="goReportScan()" > ถัดไป</button>
               </ion-col>
         </ion-row>
     </ion-grid>

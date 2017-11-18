@@ -1,4 +1,5 @@
 import { BarcodeScanner } from '@ionic-native/barcode-scanner'; //barcode scan
+import {HttpModule} from '@angular/http'; //API
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -17,6 +18,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite'; //SQLite
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
