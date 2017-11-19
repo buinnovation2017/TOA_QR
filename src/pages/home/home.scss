@@ -1,5 +1,53 @@
-page-home {
-    .bgmobileColor{
-        background-color: #808040 ;
+
+
+
+  page-home{
+    //   .image-container{
+    //       background-size: cover;
+    //       min-height: 100px;
+    //   }
+
+      .bgmobileColor{
+        background-color: #a5a541 ;
+        // #8d8d45
+        //91913d
+    }
+  }
+
+  img{
+    border-radius: 10px
+  }
+  
+
+  .one-image{
+    column-count: 1;
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media(min-width: 0px){
+      .multi-image{
+          column-count: 3;
+      }
+  }
+
+  @media(min-width: 620px){
+    .multi-image{
+        column-count: 4;
     }
 }
+
+    
+  @media(min-width: 820px){
+    .multi-image{
+        column-count: 4;
+    }
+}
+
+
+
+
+  
+
+
+

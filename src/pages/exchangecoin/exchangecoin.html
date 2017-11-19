@@ -1,29 +1,45 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>รับแลกเหรียญ</ion-title>
+    <ion-title>เมนู</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
-    <button ion-button style="width: 48%" (click)="DataClear()"> clear</button>
-    <button ion-button style="width: 48%" (click)="LoadJson()"> loadJson</button>
-    <ion-list>
-        <ion-item *ngFor="let item of messageArray">
-            {{ item.id }} {{ item.messege }}
-        </ion-item>
-    </ion-list>
 
-    <ion-label>===========================</ion-label>
-    <ion-content>
+        <ion-grid>
+                <ion-row>
+                    <ion-col col-6 style="text-align: left" >
+                        <div><h5>ชื่อช่าง</h5></div>   
+                        <div><h5>เบอร์โทร</h5></div>   
+                    </ion-col>
+                    <ion-col col-6 style="text-align: center" >
+                        <div><h2>{{messageArray.length}} </h2></div>
+                        <div>รวมจำนวน</div>
+                    </ion-col>
+                </ion-row>
+        </ion-grid>
+
+    <!-- ======== Test ======= -->
+    <div style="display:none">
+        <button ion-button style="width: 48%" (click)="QRScan()"> scan</button>
+        <button ion-button style="width: 48%" (click)="DataClear()"> clear</button>
+        <button ion-button style="width: 48%" (click)="LoadJson()"> loadJson</button>
         <ion-list>
-          <ion-item *ngFor="let QR of apiData">
-            <p>{{QR.code}}</p>
-          </ion-item>
+            <ion-item *ngFor="let item of messageArray">
+                {{ item.id }} {{ item.messege }} {{item.scan}} 
+                <!-- {{item.scan}}  -->
+            </ion-item>
         </ion-list>
-      </ion-content>
 
-<ion-label>{{data}}</ion-label>
+        <ion-label>===========================</ion-label>
+        <ion-content>
+            <ion-list>
+            <ion-item *ngFor="let QR of apiData">
+                <p>{{QR.code}}</p>
+            </ion-item>
+            </ion-list>
+        </ion-content>
 
+    </div>
 </ion-content>
 <ion-footer>
     <ion-grid>
@@ -38,7 +54,7 @@
                 <ion-item>
                     <button id="notification-button" ion-button clear>
                         <ion-icon name="notifications">
-                          <ion-badge id="notifications-badge" color="danger">{{Count20}}</ion-badge>
+                          <ion-badge id="notifications-badge" ng-show="Count20 != 0 " color="danger">{{Count20}}</ion-badge>
                         </ion-icon>              
                     </button>
                     <button id="notification-button" ion-button clear>
