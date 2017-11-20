@@ -1,23 +1,13 @@
-
-
-
   page-home{
-    //   .image-container{
-    //       background-size: cover;
-    //       min-height: 100px;
-    //   }
-
       .bgmobileColor{
-        background-color: #a5a541 ;
-        // #8d8d45
-        //91913d
+        //background-color: #a5a541 ;
+        background-color: #7041a5 ;
     }
   }
 
   img{
     border-radius: 10px
   }
-  
 
   .one-image{
     column-count: 1;
@@ -36,7 +26,6 @@
         column-count: 4;
     }
 }
-
     
   @media(min-width: 820px){
     .multi-image{

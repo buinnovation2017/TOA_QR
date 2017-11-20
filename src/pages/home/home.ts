@@ -12,7 +12,6 @@ export class HomePage {
   }
 
   goPhoneLogin(){
-    //this.navCtrl.push('LoginphonePage');
     this.navCtrl.push("ExchangecoinPage");
   }
 
