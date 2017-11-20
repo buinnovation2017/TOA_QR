@@ -27,6 +27,7 @@
         "@ionic-native/sqlite": "^4.4.2",
         "@ionic-native/status-bar": "4.3.2",
         "@ionic/storage": "2.0.1",
+        "cordova-plugin-barcodescanner": "^0.7.3",
         "cordova-plugin-qrscanner": "^2.5.0",
         "cordova-sqlite-storage": "^2.1.2",
         "ionic-angular": "3.8.0",
@@ -43,7 +44,8 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-qrscanner": {},
-            "cordova-sqlite-storage": {}
+            "cordova-sqlite-storage": {},
+            "cordova-plugin-barcodescanner": {}
         }
     }
 }

@@ -62,7 +62,7 @@
           </ion-list-header>
           <ion-list>
               <ion-item *ngFor="let item of messageArray; let i = index" [attr.data-index]="i" >
-                  <ion-row ng-class="{notfound: item.scan === 'F'}">
+                  <ion-row [ngClass]="{notfound: item.scan === 'F'} ">
                   <ion-col col-1 style="text-align: center">
                     {{i+1}}
                   </ion-col>
@@ -75,7 +75,7 @@
                    
                   <ion-col col-2 style="text-align: right" >
                       <ion-icon name="trash" (click)="removeQR(item.id)"></ion-icon>
-                      <div ng-class="{notfound: item.scan === 'F'}">{{item.scan}} </div>
+                      <!-- <div [ngClass]="{notfound: item.scan === 'F'}">{{item.scan}} </div> -->
                   </ion-col>
                 </ion-row>
               </ion-item>
