@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, transition } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
@@ -28,6 +28,7 @@ export class ExchangecoinPage {
   apiData = [];
 
   txt = 0;
+  txt2 = true;
 
 
  
@@ -47,9 +48,12 @@ export class ExchangecoinPage {
                         this.status = "Database ready.";
 
                         let sqldropT = "DROP TABLE Messages";
+                        let sqlDelete = "DELETE FROM  Messages";
                         //let sqldropT = "DROP TABLE IF EXISTS Messages";
                         let sql = "CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, messege TEXT,scan TEXT)";
+                        conObject.executeSql(sqlDelete, {});
                         conObject.executeSql(sqldropT, {});
+                        
                         conObject.executeSql(sql, {}).then(
                           () => { 
                             this.status = "Table is ready.";
@@ -113,7 +117,7 @@ export class ExchangecoinPage {
   // ==== SQLite ===
   save(message){
     if(message != ""){
-        this.checkDuplicate(message);
+        this.txt2 = this.checkDuplicate(message);
         let sql = "INSERT INTO Messages (messege,scan) VALUES (?,?)";
         let statusScan = this.matchScan(message);
         this.db.create(this.connectionObject).then(
@@ -134,10 +138,8 @@ export class ExchangecoinPage {
   }
 
   checkDuplicate(Message){
-    this.txt = 1;
-    //let sql = "SELECT * FROM Messages";
-    let sql = "SELECT * FROM Messages WHERE Message = '" + Message +"'";
-  
+    let sql = "SELECT * FROM Messages WHERE messege = '" + Message +"'";
+    let notDuplicate = false;
     this.db.create(this.connectionObject).then(
       (conObject:SQLiteObject) => {
 
@@ -146,19 +148,10 @@ export class ExchangecoinPage {
             this.status = "Load successful."; 
 
             if(result.rows.length > 0){
-              this.txt = 2;
-              // this.messageArray = [];
-
-              // for (var i = 0; i < result.rows.length; i++) {
-              //   this.messageArray.push(result.rows.item(i));
-                
-              // }
+              notDuplicate = false;
             }
             else{
-              this.txt = 3;
-              //this.messageArray = [];
-              //this.messageArray.push("");
-              //this.messageArray.pop();
+              notDuplicate = true;
             }
           }
           , (error) => { this.status = "Error insert new message: " + error.message }
@@ -167,6 +160,7 @@ export class ExchangecoinPage {
       }
       , (error) => { this.status = "Error open db for insert: " + error.message }
     )
+    return notDuplicate;
   }
 
   matchScan(message){
