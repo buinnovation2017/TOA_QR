@@ -41,55 +41,55 @@
       </ion-header>
   <ion-content  padding>
 
-        <ion-grid>
+        <ion-grid style="margin-top: -20px;">
                 <ion-row>
                     <ion-col col-6 style="text-align: left" >
-                            <p>ชื่อช่าง:</p>
-                            <p>เบอร์โทร:</p>
+                            <p style="text-align: left"><b>ชื่อช่าง:</b></p>
+                            <p style="text-align: left"><b>เบอร์โทร:</b></p>
                     </ion-col>
                     <ion-col col-6 style="text-align: left" >
-                            <p>รวมจำนวน: {{messageArray.length}}</p>
-                            <p>มูลค่ารวม: {{sumCoin}}</p>
+                            <p><b>รวมจำนวน: </b><b style="text-align: right">{{messageArray.length}}</b></p>
+                            <p><b>มูลค่ารวม:&nbsp;&nbsp;&nbsp;{{sumCoin}}</b></p>
                                 <!-- <p style="text-align: right">{{messageArray.length}} </p></h4></div> -->
                     </ion-col>
                 </ion-row>
         </ion-grid>
 
-      <ion-item-divider>
+        <!-- <ion-item-divider style="font-size: 14px">
           รายละเอียด
-        </ion-item-divider>
+        </ion-item-divider> -->
+        
         <ion-list-header>
-           <ion-row>
+           <ion-row style="background-color: #7041a5;color: rgb(250, 250, 250)"><b style="font-size: 17px">&nbsp;&nbsp;รายละเอียด</b></ion-row>
+            <ion-row style="background-color: #7d56aa;color: rgb(250, 250, 250);font-size: 14px">
               <ion-col col-1 class="bgmobileColor" side="left" style="text-align: center">
-                  #
+                <b>#</b>
               </ion-col>
-              <ion-col col-5 class="bgmobileColor" side="left" style="text-align: center">
-                  Barcode
+              <ion-col col-5 class="bgmobileColor" style="text-align: center">
+                <b>Barcode</b>
               </ion-col>
-
-              <ion-col col-4 class="bgmobileColor" side="left" style="text-align: center">
-                  ประเภทเหรียญ
+              <ion-col col-4 class="bgmobileColor" style="text-align: center;margin-top: -2px">
+                <b>ประเภทเหรียญ</b>
               </ion-col>
-              <ion-col col-2 class="bgmobileColor" side="right" style="text-align: right">
-                  ลบ
+              <ion-col col-2 class="bgmobileColor" style="text-align: right;margin-top: -2px">
+                <b>ลบ</b>&nbsp; 
               </ion-col>
            </ion-row>
           </ion-list-header>
           <ion-list>
               <ion-item *ngFor="let item of messageArray; let i = index" [attr.data-index]="i" >
-                  <ion-row [ngClass]="{notfound: item.scan === 'F' ,QRuse: item.scan === 'U' } ">
+                  <ion-row [ngClass]="{notfound: item.scan === 'F' ,QRuse: item.scan === 'U' } " style="font-size: 12px">
                   <ion-col col-1 style="text-align: center">
                     {{i+1}}
                   </ion-col>
-                  <ion-col col-6 style="text-align: center">
+                  <ion-col col-5 style="text-align: center">
                     {{ item.messege }}  
                   </ion-col>
-                  <ion-col col-3 style="text-align: center">
+                  <ion-col col-4 style="text-align: center;margin-top: -3px">
                     {{item.CoinBath}} บาท 
                   </ion-col>
-                   
                   <ion-col col-2 style="text-align: right" >
-                      <ion-icon name="trash" (click)="removeQR(item.id)"></ion-icon>
+                      <ion-icon name="trash" (click)="removeQR(item.id)"></ion-icon>&nbsp;&nbsp;
                       <!-- <div [ngClass]="{notfound: item.scan === 'F'}">{{item.scan}} </div> -->
                   </ion-col>
                 </ion-row>
@@ -100,11 +100,11 @@
       <ion-grid>
             <ion-row>
                 <ion-col col-6 style="text-align: center" >
-                        <!-- <ion-icon name="radio-button-off"> =  ไม่พบข้อมูลในระบบ</ion-icon> -->
-                    <p class="notfound">ไม่พบข้อมูลในระบบ</p>
+                    <ion-icon name="radio-button-off" class="notfound"></ion-icon> ไม่พบข้อมูลในระบบ
                 </ion-col>
                 <ion-col col-6 style="text-align: center" >
-                    <p class="QRuse">ถูกใช้ไปแล้ว</p>
+                    <!-- <p class="QRuse">ถูกใช้ไปแล้ว</p> -->
+                    <ion-icon name="radio-button-off" class="QRuse"></ion-icon> ถูกใช้ไปแล้ว
                 </ion-col>
             </ion-row>
           <ion-row>
