@@ -2,7 +2,7 @@ import { Component, transition } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-
+import { ToastController } from 'ionic-angular';
 //API
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -28,7 +28,9 @@ export class ExchangecoinPage {
   apiData = [];
 
   txt = 0;
-  txt2 = true;
+  txt2 = false;
+  txt3 ="";
+  chkDuplicate = true;
 
 
  
@@ -38,6 +40,7 @@ export class ExchangecoinPage {
         , public platform : Platform
         , public db: SQLite
         , public http : Http
+        , public toastCtrl: ToastController
       ) {
               
                this.platform.ready().then(
@@ -75,6 +78,15 @@ export class ExchangecoinPage {
                this.QRScan();
           }
 
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'QR Code นี้สแกนแล้ว',
+      duration: 5000
+    });
+    toast.present();
+  }
+        
+
   QRScan() {
     this.barcodeScanner.scan({
       showFlipCameraButton : true, // iOS and Android
@@ -89,10 +101,13 @@ export class ExchangecoinPage {
       this.bath = this.data.substring(0,2);
       this.format = barcodeData.format;
       
-      this.save(this.data);
-      this.messageArray.push(barcodeData.text);
-      this.CountCoin(barcodeData.text.substring(0,2));
-      
+      this.checkDuplicate(barcodeData.text);
+
+      if(this.chkDuplicate){
+        // this.save(barcodeData.text);
+        // this.messageArray.push(barcodeData.text);
+        // this.CountCoin(barcodeData.text.substring(0,2));
+      }
       if(barcodeData.text != "")
         this.QRScan();
 
@@ -117,7 +132,9 @@ export class ExchangecoinPage {
   // ==== SQLite ===
   save(message){
     if(message != ""){
-        this.txt2 = this.checkDuplicate(message);
+
+        
+        
         let sql = "INSERT INTO Messages (messege,scan) VALUES (?,?)";
         let statusScan = this.matchScan(message);
         this.db.create(this.connectionObject).then(
@@ -133,13 +150,14 @@ export class ExchangecoinPage {
           }
           , (error) => { this.status = "Error open db for insert: " + error.message }
         )
+      
+
     }else{this.load();
     }    
   }
 
   checkDuplicate(Message){
-    let sql = "SELECT * FROM Messages WHERE messege = '" + Message +"'";
-    let notDuplicate = false;
+    let sql = "SELECT * FROM Messages WHERE messege = '" + Message + "'";
     this.db.create(this.connectionObject).then(
       (conObject:SQLiteObject) => {
 
@@ -148,10 +166,16 @@ export class ExchangecoinPage {
             this.status = "Load successful."; 
 
             if(result.rows.length > 0){
-              notDuplicate = false;
+              this.chkDuplicate = false;
+              this.presentToast();
+
+              
             }
             else{
-              notDuplicate = true;
+              this.chkDuplicate = true;
+              this.save(Message);
+              this.messageArray.push(Message);
+              this.CountCoin(Message.substring(0,2));
             }
           }
           , (error) => { this.status = "Error insert new message: " + error.message }
@@ -160,7 +184,7 @@ export class ExchangecoinPage {
       }
       , (error) => { this.status = "Error open db for insert: " + error.message }
     )
-    return notDuplicate;
+  //  return notDuplicate;
   }
 
   matchScan(message){
