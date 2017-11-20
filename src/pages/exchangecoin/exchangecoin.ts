@@ -76,8 +76,17 @@ export class ExchangecoinPage {
                this.LoadJson();
                this.load();
                this.QRScan();
+               this.onPageWillEnter();
           }
 
+  
+  onPageWillEnter() {
+    this.load();
+  }
+  ionViewDidEnter() {
+    this.load();
+  }
+  
   presentToast() {
     let toast = this.toastCtrl.create({
       message: 'QR Code นี้สแกนแล้ว',
@@ -168,8 +177,6 @@ export class ExchangecoinPage {
             if(result.rows.length > 0){
               this.chkDuplicate = false;
               this.presentToast();
-
-              
             }
             else{
               this.chkDuplicate = true;
@@ -204,7 +211,7 @@ export class ExchangecoinPage {
   }
       
   load(){
-        let sql = "SELECT * FROM Messages ORDER BY id DESC";
+        let sql = "SELECT *,substr(messege, 1, 2) as CoinBath FROM Messages ORDER BY id DESC";
     
         this.db.create(this.connectionObject).then(
           (conObject:SQLiteObject) => {
@@ -213,13 +220,22 @@ export class ExchangecoinPage {
               (result) => { 
                 this.status = "Load successful."; 
     
+                this.Count20 = 0;
+                this.Count30 = 0;
+                this.Count60 = 0;
+                this.messageArray = [];
+                
                 if(result.rows.length > 0){
-    
-                  this.messageArray = [];
-    
                   for (var i = 0; i < result.rows.length; i++) {
                     this.messageArray.push(result.rows.item(i));
                     this.txt = this.messageArray.length;
+
+                    if(result.rows.item(i).CoinBath == '20')
+                      this.Count20 += 1;
+                    else if(result.rows.item(i).CoinBath == '30')
+                      this.Count30 += 1;
+                    else if(result.rows.item(i).CoinBath == '60')
+                      this.Count60 += 1;
                   }
                 }
                 else{
@@ -235,7 +251,7 @@ export class ExchangecoinPage {
           , (error) => { this.status = "Error open db for insert: " + error.message }
         )
 
-        this.txt = 0;
+        
       }
 
   DataClear(){
@@ -264,7 +280,8 @@ export class ExchangecoinPage {
 
   LoadJson(){
     // let url = 'https://api.myjson.com/bins/6e6jv';
-    let url = 'https://api.myjson.com/bins/1d7wxz';
+     let url = 'https://api.myjson.com/bins/1d7wxz';
+    // let url = 'https://api.myjson.com/bins/12aftj';
     
     this.http.get(url).map(res => {
             return res.json();

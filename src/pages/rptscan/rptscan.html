@@ -39,9 +39,9 @@
           <ion-title>รับแลกเหรียญ</ion-title>
         </ion-navbar>
       </ion-header>
-  <ion-content  padding>
+  <ion-content>
 
-        <ion-grid style="margin-top: -20px;">
+        <ion-grid style="margin-top: -10px;background-color: #E5FFCC">
                 <ion-row>
                     <ion-col col-6 style="text-align: left" >
                             <p style="text-align: left"><b>ชื่อช่าง:</b></p>
@@ -55,10 +55,6 @@
                 </ion-row>
         </ion-grid>
 
-        <!-- <ion-item-divider style="font-size: 14px">
-          รายละเอียด
-        </ion-item-divider> -->
-        
         <ion-list-header>
            <ion-row style="background-color: #7041a5;color: rgb(250, 250, 250)"><b style="font-size: 17px">&nbsp;&nbsp;รายละเอียด</b></ion-row>
             <ion-row style="background-color: #7d56aa;color: rgb(250, 250, 250);font-size: 14px">
@@ -76,9 +72,9 @@
               </ion-col>
            </ion-row>
           </ion-list-header>
-          <ion-list>
-              <ion-item *ngFor="let item of messageArray; let i = index" [attr.data-index]="i" >
-                  <ion-row [ngClass]="{notfound: item.scan === 'F' ,QRuse: item.scan === 'U' } " style="font-size: 12px">
+          <ion-list padding>
+              <ion-item *ngFor="let item of messageArray; let i = index" [attr.data-index]="i" [ngClass]="{notfound: item.scan === 'F' ,QRuse: item.scan === 'U' } " >
+                  <ion-row  style="font-size: 12px">
                   <ion-col col-1 style="text-align: center">
                     {{i+1}}
                   </ion-col>
@@ -95,7 +91,78 @@
                 </ion-row>
               </ion-item>
           </ion-list>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- test -->
+          <!-- <ion-list-header>
+            <ion-row style="background-color: #7041a5;color: rgb(250, 250, 250)"><b style="font-size: 17px">&nbsp;&nbsp;รายละเอียด</b></ion-row>
+             <ion-row style="background-color: #7d56aa;color: rgb(250, 250, 250);font-size: 14px">
+               <ion-col col-1 class="bgmobileColor" side="left" style="text-align: center">
+                 <b>#</b>
+               </ion-col>
+               <ion-col col-5 class="bgmobileColor" style="text-align: center">
+                 <b>Barcode</b>
+               </ion-col>
+               <ion-col col-4 class="bgmobileColor" style="text-align: center;margin-top: -2px">
+                 <b>ประเภทเหรียญ</b>
+               </ion-col>
+               <ion-col col-2 class="bgmobileColor" style="text-align: right;margin-top: -2px">
+                 <b>ลบ</b>&nbsp; 
+               </ion-col>
+            </ion-row>
+           </ion-list-header>
+           <ion-list>
+               <ion-item style="background-color: #C2A5A5 !important">
+                    <ion-row   style="font-size: 12px">
+                        <ion-col col-1 style="text-align: center">
+                            1
+                        </ion-col>
+                        <ion-col col-5 style="text-align: center">
+                            20000000002
+                        </ion-col>
+                        <ion-col col-4 style="text-align: center;margin-top: -3px">
+                            30 บาท 
+                        </ion-col>
+                        <ion-col col-2 style="text-align: right" >
+                                <ion-icon name="trash" (click)="removeQR(1)"></ion-icon>&nbsp;&nbsp;
+                        </ion-col>
+                    </ion-row>          
+               </ion-item>
+            </ion-list> -->
+            
+               <!-- <ion-item *ngFor="let item of messageArray; let i = index" [attr.data-index]="i" >
+                   <ion-row [ngClass]="{notfound: item.scan === 'F' ,QRuse: item.scan === 'U' } " style="font-size: 12px">
+                   <ion-col col-1 style="text-align: center">
+                     {{i+1}}
+                   </ion-col>
+                   <ion-col col-5 style="text-align: center">
+                     {{ item.messege }}  
+                   </ion-col>
+                   <ion-col col-4 style="text-align: center;margin-top: -3px">
+                     {{item.CoinBath}} บาท 
+                   </ion-col>
+                   <ion-col col-2 style="text-align: right" >
+                       <ion-icon name="trash" (click)="removeQR(item.id)"></ion-icon>&nbsp;&nbsp;
+                   </ion-col>
+                 </ion-row>
+               </ion-item> -->
+
   </ion-content>
+  
   <ion-footer>
       <ion-grid>
             <ion-row>
@@ -103,7 +170,6 @@
                     <ion-icon name="radio-button-off" class="notfound"></ion-icon> ไม่พบข้อมูลในระบบ
                 </ion-col>
                 <ion-col col-6 style="text-align: center" >
-                    <!-- <p class="QRuse">ถูกใช้ไปแล้ว</p> -->
                     <ion-icon name="radio-button-off" class="QRuse"></ion-icon> ถูกใช้ไปแล้ว
                 </ion-col>
             </ion-row>

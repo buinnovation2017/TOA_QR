@@ -18,6 +18,8 @@ export class RptscanPage {
   status;
   connectionObject = { name:'pon.db', location:'default' };
   messageArray = [];
+  messageArray20 = [];
+  
   rowCount= [];
   $iIndex = 0;
   sumCoin = 0;
@@ -34,17 +36,23 @@ export class RptscanPage {
           (result) => { 
             this.status = "Load successful."; 
 
+            this.sumCoin = 0;
+            this.messageArray = [];
+            this.rowCount = [];
             if(result.rows.length > 0){
-
-              this.messageArray = [];
-              this.rowCount = [];
               for (var i = 0; i < result.rows.length; i++) {
                 this.messageArray.push(result.rows.item(i));
                 this.sumCoin += parseInt(result.rows.item(i).CoinBath,10);
                 this.rowCount.push(i);
+
+                if(result.rows.item(i).CoinBath == '20')
+                {
+                this.messageArray20.push(result.rows.item(i));
+                }
               }
             }
             else{
+              this.sumCoin = 0;
               this.messageArray = [];
               this.messageArray.push("");
               this.messageArray.pop();
@@ -64,7 +72,7 @@ export class RptscanPage {
     this.indexof = index;
     
     this.removeData(index);
-
+   
   }
 
 

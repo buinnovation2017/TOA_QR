@@ -3,13 +3,21 @@ page-rptscan {
 }
 
 .notfound{
-    background-color: red;
+    background-color: red !important;
 }
 
 .QRuse{
-    background-color: rgb(255, 217, 0);
+    background-color: rgb(255, 217, 0) !important;
 }
 
 p{
     font-size: 12px;
 }
+
+.no-padding {
+    padding: 0px !important;
+    margin-right: 0px;
+}
+
+
+// style="background-color: #C2A5A5 !important"
