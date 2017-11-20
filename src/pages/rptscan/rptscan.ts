@@ -20,10 +20,12 @@ export class RptscanPage {
   messageArray = [];
   rowCount= [];
   $iIndex = 0;
+  sumCoin = 0;
 
      
   load(){
-    let sql = "SELECT *,substr(messege, 1, 2) as CoinBath  FROM Messages  ORDER BY id DESC";
+    // let sql = "SELECT *,substr(messege, 1, 2) as CoinBath  FROM Messages  ORDER BY id DESC";
+    let sql = "SELECT *,substr(messege, 1, 2) as CoinBath  FROM Messages  ORDER BY id ASC";
 
     this.db.create(this.connectionObject).then(
       (conObject:SQLiteObject) => {
@@ -38,6 +40,7 @@ export class RptscanPage {
               this.rowCount = [];
               for (var i = 0; i < result.rows.length; i++) {
                 this.messageArray.push(result.rows.item(i));
+                this.sumCoin += parseInt(result.rows.item(i).CoinBath,10);
                 this.rowCount.push(i);
               }
             }

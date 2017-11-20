@@ -39,7 +39,22 @@
           <ion-title>รับแลกเหรียญ</ion-title>
         </ion-navbar>
       </ion-header>
-  <ion-content padding>
+  <ion-content  padding>
+
+        <ion-grid>
+                <ion-row>
+                    <ion-col col-6 style="text-align: left" >
+                            <p>ชื่อช่าง:</p>
+                            <p>เบอร์โทร:</p>
+                    </ion-col>
+                    <ion-col col-6 style="text-align: left" >
+                            <p>รวมจำนวน: {{messageArray.length}}</p>
+                            <p>มูลค่ารวม: {{sumCoin}}</p>
+                                <!-- <p style="text-align: right">{{messageArray.length}} </p></h4></div> -->
+                    </ion-col>
+                </ion-row>
+        </ion-grid>
+
       <ion-item-divider>
           รายละเอียด
         </ion-item-divider>
@@ -62,14 +77,14 @@
           </ion-list-header>
           <ion-list>
               <ion-item *ngFor="let item of messageArray; let i = index" [attr.data-index]="i" >
-                  <ion-row [ngClass]="{notfound: item.scan === 'F'} ">
+                  <ion-row [ngClass]="{notfound: item.scan === 'F' ,QRuse: item.scan === 'U' } ">
                   <ion-col col-1 style="text-align: center">
                     {{i+1}}
                   </ion-col>
-                  <ion-col col-5 style="text-align: center">
+                  <ion-col col-6 style="text-align: center">
                     {{ item.messege }}  
                   </ion-col>
-                  <ion-col col-4 style="text-align: center">
+                  <ion-col col-3 style="text-align: center">
                     {{item.CoinBath}} บาท 
                   </ion-col>
                    
@@ -83,12 +98,15 @@
   </ion-content>
   <ion-footer>
       <ion-grid>
-          <ion-row>
-              <ion-col col-12 style="text-align: center" >
-                <!-- สแกนผิด -->
-              </ion-col>
-          </ion-row>
-  
+            <ion-row>
+                <ion-col col-6 style="text-align: center" >
+                        <!-- <ion-icon name="radio-button-off"> =  ไม่พบข้อมูลในระบบ</ion-icon> -->
+                    <p class="notfound">ไม่พบข้อมูลในระบบ</p>
+                </ion-col>
+                <ion-col col-6 style="text-align: center" >
+                    <p class="QRuse">ถูกใช้ไปแล้ว</p>
+                </ion-col>
+            </ion-row>
           <ion-row>
               <ion-col col-4 style="text-align: left" >
                   <button ion-button style="text-align: right" (click)="DataClear()" > ลบทั้งหมด</button>

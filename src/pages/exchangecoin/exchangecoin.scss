@@ -19,3 +19,30 @@ page-exchangecoin {
     right: -3px;
     border-radius: 100%;
 }
+
+
+
+@media(min-width: 0px){
+    .SpacePageExchange{
+        margin-top: 243px;
+    }
+}
+
+@media(min-width: 620px){
+    .SpacePageExchange{
+        margin-top: 343px;
+    }
+}
+  
+@media(min-width: 820px){
+    .SpacePageExchange{
+        margin-top: 443px;
+    }
+}
+
+.badgeCustom{
+    font-size: 2.3rem;
+    top: 0px;
+    right: 0px;
+
+}

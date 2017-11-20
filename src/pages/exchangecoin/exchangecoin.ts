@@ -26,9 +26,11 @@ export class ExchangecoinPage {
   connectionObject = { name:'pon.db', location:'default' };
   messageArray = [];
   apiData = [];
-  
-  
 
+  txt = 0;
+
+
+ 
   constructor(
           public navCtrl: NavController
         , private barcodeScanner: BarcodeScanner 
@@ -44,10 +46,10 @@ export class ExchangecoinPage {
                       (conObject: SQLiteObject) => { 
                         this.status = "Database ready.";
 
-                        // let sqldropT = "DROP TABLE Messages";
-                        let sqldropT = "DROP TABLE IF EXISTS Messages";
+                        let sqldropT = "DROP TABLE Messages";
+                        //let sqldropT = "DROP TABLE IF EXISTS Messages";
                         let sql = "CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, messege TEXT,scan TEXT)";
-                        //conObject.executeSql(sqldropT, {});
+                        conObject.executeSql(sqldropT, {});
                         conObject.executeSql(sql, {}).then(
                           () => { 
                             this.status = "Table is ready.";
@@ -63,7 +65,9 @@ export class ExchangecoinPage {
                  , (error) => { this.status = "Error in ready platform. " }
                );
 
+               this.messageArray = [];
                this.LoadJson();
+               this.load();
                this.QRScan();
           }
 
@@ -82,9 +86,12 @@ export class ExchangecoinPage {
       this.format = barcodeData.format;
       
       this.save(this.data);
-      this.messageArray = [];
       this.messageArray.push(barcodeData.text);
-      this.CountCoin();
+      this.CountCoin(barcodeData.text.substring(0,2));
+      
+      if(barcodeData.text != "")
+        this.QRScan();
+
     }, (error) => {
       alert(error);
     });
@@ -93,12 +100,12 @@ export class ExchangecoinPage {
 
 
 
-  CountCoin(){
-    if(this.bath == '20')
+  CountCoin(bath){
+    if(bath === "20")
       this.Count20 += 1;
-    else if(this.bath == '30')
+    else if(bath === "30")
       this.Count30 += 1;
-    else if(this.bath == '60')
+    else if(bath === "60")
       this.Count60 += 1;
   }
 
@@ -106,6 +113,7 @@ export class ExchangecoinPage {
   // ==== SQLite ===
   save(message){
     if(message != ""){
+        this.checkDuplicate(message);
         let sql = "INSERT INTO Messages (messege,scan) VALUES (?,?)";
         let statusScan = this.matchScan(message);
         this.db.create(this.connectionObject).then(
@@ -125,6 +133,42 @@ export class ExchangecoinPage {
     }    
   }
 
+  checkDuplicate(Message){
+    this.txt = 1;
+    //let sql = "SELECT * FROM Messages";
+    let sql = "SELECT * FROM Messages WHERE Message = '" + Message +"'";
+  
+    this.db.create(this.connectionObject).then(
+      (conObject:SQLiteObject) => {
+
+        conObject.executeSql(sql, {}).then(
+          (result) => { 
+            this.status = "Load successful."; 
+
+            if(result.rows.length > 0){
+              this.txt = 2;
+              // this.messageArray = [];
+
+              // for (var i = 0; i < result.rows.length; i++) {
+              //   this.messageArray.push(result.rows.item(i));
+                
+              // }
+            }
+            else{
+              this.txt = 3;
+              //this.messageArray = [];
+              //this.messageArray.push("");
+              //this.messageArray.pop();
+            }
+          }
+          , (error) => { this.status = "Error insert new message: " + error.message }
+        )
+
+      }
+      , (error) => { this.status = "Error open db for insert: " + error.message }
+    )
+  }
+
   matchScan(message){
     let statusFalse = "F";
 
@@ -138,8 +182,6 @@ export class ExchangecoinPage {
               statusFalse = "";
             }
     });
-
-
    return statusFalse;
   }
       
@@ -159,7 +201,7 @@ export class ExchangecoinPage {
     
                   for (var i = 0; i < result.rows.length; i++) {
                     this.messageArray.push(result.rows.item(i));
-                    
+                    this.txt = this.messageArray.length;
                   }
                 }
                 else{
@@ -174,6 +216,8 @@ export class ExchangecoinPage {
           }
           , (error) => { this.status = "Error open db for insert: " + error.message }
         )
+
+        this.txt = 0;
       }
 
   DataClear(){
